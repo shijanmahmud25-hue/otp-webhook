@@ -1,0 +1,35 @@
+from flask import Flask, request, jsonify
+import requests
+import os
+
+app = Flask(__name__)
+
+# Telegram Bot Token আর Group Chat ID এখানে দিবা
+BOT_TOKEN = "8980639127:AAFeqjoM1ALzuo1aPNHuYhjJAEEegTjR0xo"
+CHAT_ID = "7024943693"
+
+@app.route("/webhook", methods=["POST"])
+def webhook():
+    data = request.get_json()
+    print("Received:", data)
+    
+    # মেসেজ তৈরি করো
+    message = f"📩 নতুন OTP:\n\n{data}"
+    
+    # Telegram-এ পাঠাও
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    payload = {
+        "chat_id": CHAT_ID,
+        "text": message
+    }
+    requests.post(url, json=payload)
+    
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/", methods=["GET"])
+def home():
+    return "Webhook server running!", 200
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
