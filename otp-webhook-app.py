@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # Telegram Bot Token আর Group Chat ID এখানে দিবা
 BOT_TOKEN = "8980639127:AAFeqjoM1ALzuo1aPNHuYhjJAEEegTjR0xo"
-CHAT_ID = "7024943693"
+CHAT_ID = "-1004353748851"
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
